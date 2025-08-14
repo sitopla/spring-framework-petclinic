@@ -30,7 +30,7 @@ public class OwnerService {
 
     @Transactional(readOnly = true)
     public Owner findOwnerById(int id) {
-        return ownerRepository.findById(id);
+        return ownerRepository.findOwnerById(id);
     }
 
     public Owner saveOwner(Owner owner) {

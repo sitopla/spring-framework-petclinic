@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(./mvnw:*)",
+      "Bash(cp:*)",
+      "Bash(mvn:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

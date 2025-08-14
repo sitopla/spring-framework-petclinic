@@ -15,5 +15,5 @@ public interface OwnerRepository extends JpaRepository<Owner, Integer> {
     List<Owner> findByLastName(@Param("lastName") String lastName);
 
     @Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id = :id")
-    Owner findById(@Param("id") Integer id);
+    Owner findOwnerById(@Param("id") Integer id);
 }
