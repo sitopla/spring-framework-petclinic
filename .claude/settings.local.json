@@ -5,7 +5,18 @@
       "Bash(./mvnw:*)",
       "Bash(cp:*)",
       "Bash(mvn:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(npm install)",
+      "Bash(npm test:*)",
+      "Bash(ng test:*)",
+      "Bash(find:*)",
+      "Bash(sed:*)",
+      "Bash(rm:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd /c:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

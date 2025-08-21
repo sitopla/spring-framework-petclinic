@@ -69,10 +69,10 @@ import { OwnerService } from '../../../core/services/owner.service';
             <div class="pet-header">
               <h3>{{pet.name}}</h3>
               <div class="pet-buttons">
-                <button mat-button color="primary" [routerLink]="['/pets', pet.id, 'edit']">
+                <button mat-button color="primary" [routerLink]="['/owners', owner.id, 'pets', pet.id, 'edit']">
                   Edit Pet
                 </button>
-                <button mat-button color="accent" [routerLink]="['/pets', pet.id, 'visits', 'new']">
+                <button mat-button color="accent" [routerLink]="['/owners', owner.id, 'pets', pet.id, 'visits', 'new']">
                   Add Visit
                 </button>
               </div>

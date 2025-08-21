@@ -7,7 +7,7 @@ import { Owner } from '../models';
   providedIn: 'root'
 })
 export class OwnerService {
-  private apiUrl = 'http://localhost:8080/api/owners';
+  private apiUrl = 'http://localhost:8083/api/owners';
 
   constructor(private http: HttpClient) {}
 

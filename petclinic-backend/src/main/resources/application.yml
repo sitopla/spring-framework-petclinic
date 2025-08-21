@@ -3,19 +3,25 @@ spring:
     name: petclinic-backend
   
   datasource:
-    url: jdbc:h2:mem:petclinic
+    url: jdbc:h2:file:./data/petclinic
     username: sa
     password: 
     driver-class-name: org.h2.Driver
   
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
         format_sql: true
     database: h2
+    defer-datasource-initialization: true
+  
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
   
   h2:
     console:
@@ -23,7 +29,7 @@ spring:
       path: /h2-console
 
 server:
-  port: 8080
+  port: 8083
 
 management:
   endpoints:

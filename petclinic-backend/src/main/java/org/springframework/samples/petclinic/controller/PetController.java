@@ -74,12 +74,23 @@ public class PetController {
     public ResponseEntity<PetDto> updatePet(
             @PathVariable Integer id,
             @Valid @RequestBody PetDto petDto) {
-        if (!petService.existsById(id)) {
+        Pet existingPet = petService.findPetById(id);
+        if (existingPet == null) {
             return ResponseEntity.notFound().build();
         }
-        Pet pet = convertToEntity(petDto);
-        pet.setId(id);
-        Pet updatedPet = petService.savePet(pet);
+        
+        // Update only the fields that should be changed, preserve owner relationship
+        existingPet.setName(petDto.getName());
+        existingPet.setBirthDate(petDto.getBirthDate());
+        
+        if (petDto.getType() != null && petDto.getType().getId() != null) {
+            PetType petType = new PetType();
+            petType.setId(petDto.getType().getId());
+            petType.setName(petDto.getType().getName());
+            existingPet.setType(petType);
+        }
+        
+        Pet updatedPet = petService.savePet(existingPet);
         return ResponseEntity.ok(convertToDto(updatedPet));
     }
 

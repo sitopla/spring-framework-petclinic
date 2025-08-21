@@ -16,5 +16,13 @@ export const routes: Routes = [
   {
     path: ':id/edit',
     loadComponent: () => import('./owner-form/owner-form.component').then(c => c.OwnerFormComponent)
+  },
+  {
+    path: ':ownerId/pets/new',
+    loadComponent: () => import('../pets/pet-form/pet-form.component').then(c => c.PetFormComponent)
+  },
+  {
+    path: ':ownerId/pets/:petId/edit',
+    loadComponent: () => import('../pets/pet-form/pet-form.component').then(c => c.PetFormComponent)
   }
 ];

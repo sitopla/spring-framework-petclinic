@@ -7,7 +7,7 @@ import { Vet } from '../models';
   providedIn: 'root'
 })
 export class VetService {
-  private apiUrl = 'http://localhost:8080/api/vets';
+  private apiUrl = 'http://localhost:8083/api/vets';
 
   constructor(private http: HttpClient) {}
 

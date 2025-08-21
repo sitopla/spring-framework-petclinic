@@ -7,7 +7,7 @@ import { Visit } from '../models';
   providedIn: 'root'
 })
 export class VisitService {
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = 'http://localhost:8083/api';
 
   constructor(private http: HttpClient) {}
 
