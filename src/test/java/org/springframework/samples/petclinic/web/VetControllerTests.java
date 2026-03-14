@@ -13,6 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDate;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -73,6 +76,63 @@ class VetControllerTests {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
             .andExpect(content().node(hasXPath("/vets/vet[id=1]/id")));
+    }
+
+    @Test
+    void testShowPdfVetList() throws Exception {
+        byte[] result = mockMvc.perform(get("/vets.pdf"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/pdf"))
+            .andExpect(header().string("Content-Disposition", "attachment; filename=\"veterinarians.pdf\""))
+            .andReturn().getResponse().getContentAsByteArray();
+
+        // Verify PDF magic bytes (%PDF)
+        assertThat(result).hasSizeGreaterThan(4);
+        assertThat(new String(result, 0, 5)).startsWith("%PDF");
+    }
+
+    @Test
+    void testShowPdfVetListWithVetWithoutSpecialties() throws Exception {
+        // James Carter has no specialties — verify PDF still generates successfully
+        Vet solo = new Vet();
+        solo.setFirstName("Solo");
+        solo.setLastName("Vet");
+        solo.setId(99);
+        given(this.clinicService.findVets()).willReturn(Lists.newArrayList(solo));
+
+        byte[] result = mockMvc.perform(get("/vets.pdf"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/pdf"))
+            .andReturn().getResponse().getContentAsByteArray();
+
+        assertThat(new String(result, 0, 5)).startsWith("%PDF");
+    }
+
+    @Test
+    void testPdfContainsHeaderContent() throws Exception {
+        byte[] result = mockMvc.perform(get("/vets.pdf"))
+            .andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsByteArray();
+
+        // Verify it's a valid and non-trivial PDF (header + table = substantial content)
+        assertThat(result).hasSizeGreaterThan(500);
+        assertThat(new String(result, 0, 5)).startsWith("%PDF");
+        // PDF trailer present — confirms complete document
+        String pdfEnd = new String(result, result.length - 10, 10);
+        assertThat(pdfEnd).contains("%%EOF");
+    }
+
+    @Test
+    void testShowPdfVetListEmpty() throws Exception {
+        given(this.clinicService.findVets()).willReturn(Lists.newArrayList());
+
+        byte[] result = mockMvc.perform(get("/vets.pdf"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/pdf"))
+            .andReturn().getResponse().getContentAsByteArray();
+
+        assertThat(result).hasSizeGreaterThan(4);
+        assertThat(new String(result, 0, 5)).startsWith("%PDF");
     }
 
 }

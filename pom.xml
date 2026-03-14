@@ -71,6 +71,7 @@
         <!-- Others -->
         <jackson.version>2.19.2</jackson.version>
         <aspectj.version>1.9.24</aspectj.version>
+        <openpdf.version>3.0.3</openpdf.version>
 
         <!-- Maven plugins -->
         <jetty-maven-plugin.version>11.0.25</jetty-maven-plugin.version>
@@ -299,6 +300,13 @@
             <artifactId>hamcrest</artifactId>
             <version>${hamcrest.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- PDF generation -->
+        <dependency>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+            <version>${openpdf.version}</version>
         </dependency>
 
         <!-- JAXB and Activation are considered to be a Jakarta EE API and therefore are

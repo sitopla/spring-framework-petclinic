@@ -40,5 +40,8 @@
         <div class="col-md-2">
             <a href="<spring:url value="/vets.json" htmlEscape="true" />">View as JSON</a>
         </div>
+        <div class="col-md-2">
+            <a href="<spring:url value="/vets.pdf" htmlEscape="true" />"><spring:message code="exportPdf"/></a>
+        </div>
     </div>
 </petclinic:layout>

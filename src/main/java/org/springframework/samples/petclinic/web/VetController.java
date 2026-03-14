@@ -15,6 +15,9 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.model.Vets;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -34,12 +38,17 @@ import java.util.Map;
 @Controller
 public class VetController {
 
+    private static final Logger log = LoggerFactory.getLogger(VetController.class);
+
     private final ClinicService clinicService;
+
+    private final VetPdfGenerator vetPdfGenerator;
 
 
     @Autowired
-    public VetController(ClinicService clinicService) {
+    public VetController(ClinicService clinicService, VetPdfGenerator vetPdfGenerator) {
         this.clinicService = clinicService;
+        this.vetPdfGenerator = vetPdfGenerator;
     }
 
     @GetMapping("/vets")
@@ -63,6 +72,15 @@ public class VetController {
     public
     Vets showXmlVetList() {
         return getVets();
+    }
+
+    @GetMapping("/vets.pdf")
+    public void showPdfVetList(HttpServletResponse response) throws IOException {
+        log.info("Exporting veterinarians list as PDF");
+        Vets vets = getVets();
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=\"veterinarians.pdf\"");
+        vetPdfGenerator.generate(vets, response.getOutputStream());
     }
 
     private Vets getVets() {
