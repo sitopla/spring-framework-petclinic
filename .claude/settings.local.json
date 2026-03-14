@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.boe.es)",
+      "Bash(where pandoc:*)",
+      "Bash(python:*)",
+      "Bash(cp:*)"
+    ]
+  }
+}
